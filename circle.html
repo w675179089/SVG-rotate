@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    *{
+        margin: 0;padding: 0;
+    }
+    .parent{
+        position: relative;
+        margin-top: 50px;
+
+    }
+        .circle-box {
+            width: 500px;
+        }
+        .msg{
+            width: 400px;height: 400px;
+            position: absolute;
+            
+            left: 50%;
+            margin-left: -200px;
+        }
+        .sanjiao{
+            width: 0;height: 0;
+            border: 10px solid transparent;
+            border-top: 30px solid #ffad2d;
+                position: absolute;
+            left: 50%;
+            margin-left: -10px;
+                top: -26px;
+        }
+        .text{
+                width: 40px;
+    background-color: #fdae2d;
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    border-radius: 3px;
+    top: -40px;
+z-index: 10;
+        }
+    </style>
+</head>
+ 
+<body>
+<div class='parent'>
+    <div id="circle-box"></div>
+     <div class='msg'>
+         <div class='text'>0%
+            
+         </div>
+         <div class='sanjiao'></div>
+     </div>
+</div>
+<script type="text/javascript" src='./jquery.js'> </script>
+    <script>
+    function Cir(obj) {
+            this.Id = obj.id;
+            this.color1 = obj.backcolor || "#ccc";
+            this.color2 = obj.color || "#b20f0f";
+            this.per = obj.percent;
+            this.timer = obj.time || 0.8;
+            this.fontSize = obj.fontSize || "14px";
+            this.borderWidth = obj.borderWidth || 10;
+            this.width = obj.width;
+            this.data = function() {
+                var _this = this;
+                var box = document.getElementById(_this.Id);
+                //                _this.width = ;
+                box.style.position = "relative";
+                box.innerHTML = '<svg version="1.1"  xmlns="http://www.3w.org/2000/svg" width="' + _this.width + '"height="' + _this.width + '"style="transform: rotate(-90deg); position: absolute; left: 50%;margin-left: -'+_this.width/2+'px;" version="1.1">   <circle cx="' + _this.width / 2 + '"cy="' + _this.width / 2 + '"r="' + (_this.width / 2 - _this.borderWidth / 2) + '" stroke="' + _this.color1 + '"fill="none" stroke-width="' + _this.borderWidth + '"></circle> <circle cx="' + _this.width / 2 + '" cy="' + _this.width / 2 + '"r="' + (_this.width / 2 - _this.borderWidth / 2) + '"stroke="' + _this.color2 + '"fill="none" stroke-width="' + _this.borderWidth + '"style="" class="w-circle"></circle></svg>';
+
+                document.getElementsByTagName("head")[0].innerHTML += '<style>.w-circle{stroke-dasharray:0 ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + ';stroke-linejoin:round;stroke-linecap:round; -webkit-animation:wc ' + _this.timer + 's linear forwards; -moz-animation:wc ' + _this.timer + 's linear forwards;-ms-animation:wc ' + _this.timer + 's linear forwards;animation:wc ' + _this.timer + 's linear forwards;}  @-webkit-keyframes wc {0%{stroke-dasharray:0 ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + ';}100%{stroke-dasharray:' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI * _this.per) + ' ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + ';} @-moz-keyframes wc {0%{stroke-dasharray:0 ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + '}100%{stroke-dasharray:' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI * _this.per) + ' ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + ';} @-ms-keyframes wc {0%{stroke-dasharray:0 ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + '}100%{stroke-dasharray:' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI * _this.per) + ' ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + ';} @keyframes wc {0%{stroke-dasharray:0 ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + ';}100%{stroke-dasharray:' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI * _this.per) + ' ' + parseInt((_this.width / 2 - _this.borderWidth / 2) * 2 * Math.PI) + ';}</style>';
+            };
+            this.data();
+        }
+          function drawCircle(percent) {
+            var html = document.documentElement.clientWidth;
+            if (html > 750) {
+                html = 750;
+            };
+            if (html < 320) {
+                html = 320;
+            };
+            var per = html / 750;
+            var w = parseInt(per * 400);
+            var borderWidth = parseInt(per * 25);
+            var circle = new Cir({
+                id: "circle-box",
+                color: "#fff206", //进度条底层颜色默认#ccc
+                backcolor: "rgba(0,0,0,0.1)", //进度条颜色默认#b20f0f
+                percent: percent, //进度百分比 0~1
+                time: 1.5, //动画时间，如果不需要动画可设置为0
+                fontSize: "12px", //字体大小 默认14px
+                borderWidth: borderWidth, //进度条宽度 默认10
+                width: w
+            })
+        }
+        drawCircle(0.6)
+
+        var deg = 0.6* 360;
+        var i = 0;
+        var speed = Math.floor(1500 / deg);
+        var timer2 = setInterval(function() {
+
+            if (i >= deg) {
+                clearInterval(timer2);
+            } else {
+                i++;
+                $(".msg").css({
+                    "transform": "rotate(" + i + "deg)"
+                });
+                $(".text").css({
+                    "transform": "rotate(" + -i + "deg)"
+                });
+                
+                $(".text").html(parseInt(i * 100 / 360) + "%");
+                
+            }
+
+        }, speed)
+    </script>
+</body>
+
+</html>
