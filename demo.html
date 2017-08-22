@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .w-box {
+            width: 500px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="w-box" id="w-box"></div>
+    <script src="w-Cir.js"></script>
+    <script>
+        var c = new Cir({
+            id:"w-box",//需要添加进度条的容器,进度条大小会根据容器大小占据
+            color:"#aaaa13",//进度条底层颜色默认#ccc
+            backcolor:"#c0d2e3",//进度条颜色默认#b20f0f
+            percent:1,//进度百分比 0~1
+            time:3,//动画时间，如果不需要动画可设置为0
+            fontSize:"12px",//字体大小 默认14px
+            borderWidth:5//进度条宽度 默认10
+        });
+
+    </script>
+</body>
+
+</html>
